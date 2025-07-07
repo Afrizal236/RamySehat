@@ -1,6 +1,6 @@
-🏥 RamySehat - Health Consultation Platform
+# 🏥 RamySehat - Health Consultation Platform
 
-📋 Deskripsi Project
+## 📋 Deskripsi Project
 
 RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
@@ -14,9 +14,9 @@ RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
 🛒 Product Showcase untuk produk kesehatan
 
-🎯 Fitur Utama
+## 🎯 Fitur Utama
 
-🔐 Authentication System
+### 🔐 Authentication System
 
 ✅ User Registration & Login
 
@@ -28,7 +28,7 @@ RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
 ✅ Role-based Access Control
 
-🤖 AI Health Chatbot
+### 🤖 AI Health Chatbot
 
 ✅ Konsultasi penyakit umum (Influenza, ISPA, Diare, DBD, dll)
 
@@ -38,7 +38,7 @@ RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
 ✅ Database penyakit yang komprehensif
 
-📞 Contact Management
+### 📞 Contact Management
 
 ✅ Contact Form untuk user
 
@@ -48,7 +48,7 @@ RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
 ✅ Email notifications
 
-📱 Responsive Design
+### 📱 Responsive Design
 
 ✅ Mobile-first approach
 
@@ -58,9 +58,9 @@ RamySehat adalah platform konsultasi kesehatan berbasis web yang menyediakan:
 
 ✅ Smooth animations & transitions
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-Frontend
+### Frontend
 
 HTML5 - Semantic markup
 
@@ -70,7 +70,7 @@ JavaScript - Vanilla JS untuk interactivity
 
 Responsive Design - Mobile-first approach
 
-Backend
+### Backend
 
 PHP 7.4+ - Server-side logic
 
@@ -80,7 +80,7 @@ PDO - Database abstraction layer
 
 Session Management - User authentication
 
-Tools & Libraries
+### Tools & Libraries
 
 Leaflet.js - Interactive maps
 
@@ -88,9 +88,9 @@ Font Awesome - Icons
 
 Google Fonts - Typography
 
-📦 Installation & Setup
+## 📦 Installation & Setup
 
-Prerequisites
+### Prerequisites
 
 🔧 XAMPP/WAMP/MAMP atau web server dengan PHP 7.4+
 
@@ -98,53 +98,53 @@ Prerequisites
 
 🌐 Web browser modern
 
-1. Clone Repository
+## 1. Clone Repository
 
 https://github.com/Afrizal236/RamySehat.git
 
-2. Import file database:
+## 2. Import file database:
 
 -- Import database_setup.sql
 
 mysql -u root -p < database/database_setup.sql
 
-🧪 Testing
+## 🧪 Testing
 
 Project dilengkapi dengan testing suite yang komprehensif:
 
-Database Testing
+### Database Testing
 
 bashhttp://localhost/RamySehat/tests/test_database.php
 
-Authentication Testing
+### Authentication Testing
 
 bashhttp://localhost/RamySehat/tests/testing_system.php
 
-Contact System Testing
+### Contact System Testing
 
 bashhttp://localhost/RamySehat/tests/test_contact_system.php
 
-Forgot Password Testing
+### Forgot Password Testing
 
 bashhttp://localhost/RamySehat/tests/test_forgot_password.php
 
-👤 Default User Accounts
+## 👤 Default User Accounts
 
-User Account
+### User Account
 
 Email: ramydiaman@gmail.com
 
 Password: Ramydiaman2456
 
-Admin Account
+### Admin Account
 
 Email: admin@ramysehat.com
 
 Password: admin123
 
-📖 User Guide
+## 📖 User Guide
 
-For Users:
+### For Users:
 
 Register/Login - Buat akun atau masuk dengan akun existing
 
@@ -154,7 +154,7 @@ Contact Support - Hubungi admin melalui contact form
 
 Browse Products - Lihat produk kesehatan yang tersedia
 
-For Admins:
+### For Admins:
 
 Login Admin - Masuk dengan akun admin
 
