@@ -66,3 +66,42 @@ Prerequisites
 🔧 XAMPP/WAMP/MAMP atau web server dengan PHP 7.4+
 🗄️ MySQL 5.7+ atau MariaDB
 🌐 Web browser modern
+
+1. Clone Repository
+https://github.com/Afrizal236/RamySehat.git
+
+2. Import file database:
+-- Import database_setup.sql
+mysql -u root -p < database/database_setup.sql
+
+🧪 Testing
+Project dilengkapi dengan testing suite yang komprehensif:
+Database Testing
+bashhttp://localhost/RamySehat/tests/test_database.php
+Authentication Testing
+bashhttp://localhost/RamySehat/tests/testing_system.php
+Contact System Testing
+bashhttp://localhost/RamySehat/tests/test_contact_system.php
+Forgot Password Testing
+bashhttp://localhost/RamySehat/tests/test_forgot_password.php
+
+👤 Default User Accounts
+User Account
+Email: ramydiaman@gmail.com
+Password: Ramydiaman2456
+
+Admin Account
+Email: admin@ramysehat.com
+Password: admin123
+
+📖 User Guide
+For Users:
+Register/Login - Buat akun atau masuk dengan akun existing
+Health Consultation - Gunakan AI chatbot untuk konsultasi
+Contact Support - Hubungi admin melalui contact form
+Browse Products - Lihat produk kesehatan yang tersedia
+
+For Admins:
+Login Admin - Masuk dengan akun admin
+Message Management - Kelola pesan dari contact form
+User Management - Monitor aktivitas user
