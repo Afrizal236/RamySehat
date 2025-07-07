@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Kesehatan - RamySehat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chatbot-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 800px;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e9ecef;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+
+        .chatbot-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid #007bff;
+        }
+
+        .user .message-avatar {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .bot .message-content {
+            background: #f8f9fa;
+            color: #333;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .user .message-content {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .bot .message-time {
+            color: #6c757d;
+        }
+
+        .user .message-time {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .disease-list {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+            border: 1px solid #e9ecef;
+        }
+
+        .disease-category {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .disease-item {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .disease-item::before {
+            content: '•';
+            color: #007bff;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .disease-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .disease-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .chat-input:focus {
+            border-color: #007bff;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            max-width: 70%;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #007bff;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-box {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #007bff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .solution-title {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .solution-section {
+            margin-bottom: 15px;
+        }
+
+        .solution-section h4 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .solution-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .solution-section li {
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .solution-section li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .chatbot-container {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .chatbot-title {
+                font-size: 1.5rem;
+            }
+
+            .chatbot-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .chat-input-container {
+                padding: 15px;
+            }
+
+            .solution-box {
+                padding: 15px;
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .chatbot-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .chatbot-title {
+                font-size: 1.3rem;
+            }
+
+            .message-content {
+                max-width: 90%;
+                padding: 12px 15px;
+            }
+
+            .chat-input {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .send-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <img src="https://github.com/Afrizal236/kesehatan/blob/main/pngtree-chatbot-icon-chat-bot-robot-png-image_4841963.png?raw=true" alt="Chatbot" class="chatbot-logo">
+            <h1 class="chatbot-title">Asisten Kesehatan AI</h1>
+            <p class="chatbot-subtitle">Konsultasi kesehatan cerdas untuk hidup lebih sehat</p>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="messageInput" placeholder="Ketik pesan Anda..." maxlength="500">
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let conversationState = 'welcome';
+        let selectedDisease = null;
+        let conversationEnded = false;
+
+        const diseases = {
+            'influenza': {
+                name: 'Influenza (Flu)',
+                gejala: ['Demam tinggi (38°C atau lebih)', 'Batuk kering', 'Pilek dan hidung tersumbat', 'Nyeri otot dan sendi', 'Sakit kepala', 'Kelelahan ekstrem'],
+                penyebab: 'Virus influenza yang menyebar melalui droplet saat batuk atau bersin',
+                pengobatan: ['Istirahat yang cukup (7-8 jam sehari)', 'Minum banyak air putih (minimal 8 gelas/hari)', 'Konsumsi makanan bergizi tinggi', 'Obat penurun demam (paracetamol/ibuprofen)', 'Obat batuk sesuai kebutuhan'],
+                pencegahan: ['Vaksinasi influenza tahunan', 'Cuci tangan dengan sabun secara rutin', 'Hindari kontak dengan penderita flu', 'Gunakan masker saat sakit', 'Jaga daya tahan tubuh dengan olahraga'],
+                tips: ['Berkumur dengan air garam hangat', 'Hirup uap air hangat untuk melegakan pernapasan', 'Konsumsi vitamin C dari buah-buahan', 'Hindari aktivitas berat selama sakit']
+            },
+            'ispa': {
+                name: 'ISPA (Infeksi Saluran Pernapasan Akut)',
+                gejala: ['Batuk berdahak atau kering', 'Pilek dan bersin-bersin', 'Sakit tenggorokan', 'Demam ringan sampai sedang', 'Sesak napas ringan', 'Suara serak'],
+                penyebab: 'Virus atau bakteri yang menginfeksi saluran pernapasan, terutama saat cuaca dingin atau polusi udara',
+                pengobatan: ['Istirahat total di rumah', 'Perbanyak konsumsi cairan hangat', 'Obat batuk ekspektoran untuk mengeluarkan dahak', 'Obat pereda nyeri tenggorokan', 'Antibiotik jika disebabkan bakteri (sesuai resep dokter)'],
+                pencegahan: ['Hindari paparan polusi udara', 'Gunakan masker saat bepergian', 'Jaga kebersihan tangan', 'Ventilasi rumah yang baik', 'Konsumsi makanan bergizi seimbang'],
+                tips: ['Minum teh hangat dengan madu', 'Berkumur dengan larutan garam', 'Gunakan humidifier untuk melembabkan udara', 'Hindari asap rokok dan polutan lainnya']
+            },
+            'diare': {
+                name: 'Diare',
+                gejala: ['BAB lebih dari 3 kali sehari dengan konsistensi cair', 'Mual dan muntah', 'Kram perut', 'Demam ringan', 'Dehidrasi (mulut kering, lemas)', 'Kehilangan nafsu makan'],
+                penyebab: 'Infeksi virus, bakteri, atau parasit akibat makanan/minuman yang terkontaminasi',
+                pengobatan: ['Rehidrasi dengan oralit atau air putih yang banyak', 'Diet BRAT (pisang, nasi, apel, roti tawar)', 'Probiotik untuk mengembalikan flora usus', 'Obat antidiare jika diperlukan', 'Zinc untuk mempercepat penyembuhan'],
+                pencegahan: ['Cuci tangan sebelum makan dan setelah BAB', 'Konsumsi air yang sudah dimasak', 'Hindari makanan mentah atau setengah matang', 'Jaga kebersihan makanan dan peralatan makan', 'Pilih tempat makan yang bersih'],
+                tips: ['Minum air kelapa untuk elektrolit alami', 'Hindari susu dan makanan berlemak', 'Konsumsi sup ayam hangat', 'Istirahat yang cukup untuk pemulihan']
+            },
+            'dbd': {
+                name: 'Demam Berdarah Dengue (DBD)',
+                gejala: ['Demam tinggi mendadak (39-40°C)', 'Sakit kepala hebat', 'Nyeri di belakang mata', 'Nyeri otot dan sendi', 'Bintik merah di kulit', 'Mual dan muntah'],
+                penyebab: 'Virus dengue yang ditularkan melalui gigitan nyamuk Aedes aegypti',
+                pengobatan: ['Segera ke rumah sakit untuk pemeriksaan lab', 'Istirahat total dengan pengawasan medis', 'Banyak minum cairan untuk mencegah syok', 'Obat penurun panas (hindari aspirin)', 'Transfusi darah jika trombosit sangat rendah'],
+                pencegahan: ['Bersihkan genangan air di sekitar rumah', 'Gunakan kelambu saat tidur', 'Pakai obat nyamuk atau lotion anti nyamuk', 'Tanam tanaman pengusir nyamuk', 'Lakukan 3M: Menguras, Menutup, Mengubur'],
+                tips: ['Periksa jentik nyamuk seminggu sekali', 'Gunakan pakaian panjang saat keluar rumah', 'Konsumsi vitamin C untuk daya tahan tubuh', 'Segera ke dokter jika demam tidak turun dalam 3 hari']
+            },
+            'hipertensi': {
+                name: 'Hipertensi (Tekanan Darah Tinggi)',
+                gejala: ['Sakit kepala berulang', 'Pusing atau vertigo', 'Sesak napas saat beraktivitas', 'Nyeri dada', 'Penglihatan kabur', 'Sering mimisan'],
+                penyebab: 'Faktor genetik, gaya hidup tidak sehat, konsumsi garam berlebih, stress, obesitas',
+                pengobatan: ['Obat antihipertensi sesuai resep dokter', 'Diet rendah garam (kurang dari 5 gram/hari)', 'Olahraga rutin 30 menit/hari', 'Kelola stress dengan meditasi atau yoga', 'Pantau tekanan darah secara rutin'],
+                pencegahan: ['Batasi konsumsi garam dan makanan olahan', 'Perbanyak konsumsi buah dan sayuran', 'Olahraga aerobik secara teratur', 'Hindari merokok dan alkohol', 'Jaga berat badan ideal'],
+                tips: ['Konsumsi pisang untuk kalium alami', 'Minum air putih yang cukup', 'Tidur yang cukup 7-8 jam/malam', 'Lakukan teknik relaksasi untuk mengurangi stress']
+            },
+            'diabetes': {
+                name: 'Diabetes Melitus',
+                gejala: ['Sering haus dan sering buang air kecil', 'Penurunan berat badan tanpa sebab', 'Luka yang sulit sembuh', 'Penglihatan kabur', 'Kelelahan berlebihan', 'Kesemutan di tangan dan kaki'],
+                penyebab: 'Kekurangan insulin atau resistensi insulin akibat faktor genetik dan gaya hidup',
+                pengobatan: ['Kontrol gula darah dengan obat antidiabetes', 'Diet rendah gula dan karbohidrat sederhana', 'Olahraga rutin untuk meningkatkan sensitivitas insulin', 'Monitoring gula darah secara berkala', 'Suntikan insulin jika diperlukan'],
+                pencegahan: ['Batasi konsumsi gula dan makanan manis', 'Pilih karbohidrat kompleks (nasi merah, gandum)', 'Olahraga minimal 150 menit/minggu', 'Jaga berat badan ideal', 'Periksa gula darah rutin setelah usia 45 tahun'],
+                tips: ['Konsumsi makanan dengan indeks glikemik rendah', 'Makan dalam porsi kecil tapi sering', 'Perbanyak konsumsi serat dari sayuran', 'Hindari stress berlebihan']
+            },
+            'kolesterol': {
+                name: 'Kolesterol Tinggi',
+                gejala: ['Sering tidak bergejala (silent disease)', 'Nyeri dada jika sudah menyumbat pembuluh darah', 'Sesak napas saat beraktivitas', 'Pusing atau sakit kepala', 'Kelelahan', 'Bengkak di kaki'],
+                penyebab: 'Konsumsi makanan berlemak jenuh tinggi, kurang olahraga, faktor genetik, obesitas',
+                pengobatan: ['Obat penurun kolesterol (statin) sesuai resep', 'Diet rendah lemak jenuh dan trans', 'Olahraga aerobik rutin', 'Konsumsi serat larut dari oat dan kacang-kacangan', 'Hindari makanan gorengan dan fast food'],
+                pencegahan: ['Batasi konsumsi daging berlemak dan jeroan', 'Pilih minyak yang sehat (olive oil, canola)', 'Konsumsi ikan berlemak (salmon, mackerel)', 'Perbanyak buah dan sayuran', 'Jaga berat badan ideal'],
+                tips: ['Konsumsi oatmeal untuk sarapan', 'Ganti cemilan dengan kacang-kacangan', 'Minum teh hijau secara rutin', 'Hindari makanan olahan dan kemasan']
+            },
+            'asma': {
+                name: 'Asma',
+                gejala: ['Sesak napas terutama malam hari', 'Batuk kering berkepanjangan', 'Bunyi mengi saat bernapas', 'Dada terasa sesak dan berat', 'Mudah lelah saat beraktivitas', 'Serangan sesak mendadak'],
+                penyebab: 'Alergi, polusi udara, asap rokok, perubahan cuaca, stress, aktivitas fisik berlebihan',
+                pengobatan: ['Inhaler bronkodilator untuk serangan akut', 'Obat pengontrol asma jangka panjang', 'Hindari pemicu alergi yang diketahui', 'Latihan pernapasan yang benar', 'Vaksinasi flu dan pneumonia'],
+                pencegahan: ['Identifikasi dan hindari pemicu asma', 'Jaga kebersihan rumah dari debu dan tungau', 'Gunakan masker saat polusi tinggi', 'Olahraga ringan secara bertahap', 'Kelola stress dengan baik'],
+                tips: ['Selalu bawa inhaler kemana-mana', 'Latihan pernapasan diafragma', 'Konsumsi makanan anti-inflamasi', 'Hindari olahraga berlebihan di cuaca dingin']
+            },
+            'maag': {
+                name: 'Maag (Gastritis)',
+                gejala: ['Nyeri atau perih di ulu hati', 'Mual dan muntah', 'Perut kembung dan begah', 'Sendawa berlebihan', 'Hilang nafsu makan', 'BAB berwarna hitam (jika parah)'],
+                penyebab: 'Pola makan tidak teratur, stress, infeksi H. pylori, konsumsi obat antiinflamasi berlebihan',
+                pengobatan: ['Obat antasida untuk menetralkan asam lambung', 'Obat PPI (omeprazole) untuk mengurangi produksi asam', 'Antibiotik jika ada infeksi H. pylori', 'Diet lunak dan mudah dicerna', 'Makan dalam porsi kecil tapi sering'],
+                pencegahan: ['Makan secara teratur 3 kali sehari', 'Hindari makanan pedas, asam, dan berlemak', 'Kurangi konsumsi kopi dan alkohol', 'Kelola stress dengan relaksasi', 'Hindari makan terlalu cepat'],
+                tips: ['Minum air hangat sebelum makan', 'Konsumsi pisang untuk melindungi lambung', 'Hindari makan 3 jam sebelum tidur', 'Kunyah makanan dengan baik dan pelan']
+            }
+        };
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('id-ID', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+
+        function addMessage(content, isUser = false, isHtml = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'message-avatar';
+            
+            if (isUser) {
+                avatarDiv.textContent = 'U';
+            } else {
+                const botAvatar = document.createElement('img');
+                botAvatar.src = 'https://github.com/Afrizal236/kesehatan/blob/main/pngtree-chatbot-icon-chat-bot-robot-png-image_4841963.png?raw=true';
+                botAvatar.alt = 'Bot';
+                botAvatar.style.width = '100%';
+                botAvatar.style.height = '100%';
+                botAvatar.style.objectFit = 'cover';
+                avatarDiv.appendChild(botAvatar);
+            }
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            if (isHtml) {
+                contentDiv.innerHTML = content;
+            } else {
+                contentDiv.textContent = content;
+            }
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = getCurrentTime();
+            contentDiv.appendChild(timeDiv);
+
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typing-indicator';
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'message-avatar';
+            const botAvatar = document.createElement('img');
+            botAvatar.src = 'https://github.com/Afrizal236/kesehatan/blob/main/pngtree-chatbot-icon-chat-bot-robot-png-image_4841963.png?raw=true';
+            botAvatar.alt = 'Bot';
+            botAvatar.style.width = '100%';
+            botAvatar.style.height = '100%';
+            botAvatar.style.objectFit = 'cover';
+            avatarDiv.appendChild(botAvatar);
+
+            const indicatorDiv = document.createElement('div');
+            indicatorDiv.className = 'typing-indicator';
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                indicatorDiv.appendChild(dot);
+            }
+
+            typingDiv.appendChild(avatarDiv);
+            typingDiv.appendChild(indicatorDiv);
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function sendMessage() {
+            if (conversationEnded) return;
+
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Process message after delay
+            setTimeout(() => {
+                removeTypingIndicator();
+                processMessage(message.toLowerCase());
+            }, 1500 + Math.random() * 1000);
+        }
+
+        function processMessage(message) {
+            if (conversationEnded) return;
+
+            if (conversationState === 'welcome') {
+                handleDiseaseSelection(message);
+            } else if (conversationState === 'providing_solution') {
+                handleSolutionResponse(message);
+            }
+        }
+
+        function handleDiseaseSelection(message) {
+            // Check for disease keywords
+            const diseaseKeywords = {
+                'influenza': ['influenza', 'flu', 'pilek', 'batuk pilek'],
+                'ispa': ['ispa', 'infeksi saluran pernapasan', 'batuk', 'sesak'],
+                'diare': ['diare', 'mencret', 'bab cair'],
+                'dbd': ['demam berdarah', 'dbd', 'demam tinggi', 'bintik merah'],
+                'hipertensi': ['hipertensi', 'darah tinggi', 'tekanan darah'],
+                'diabetes': ['diabetes', 'kencing manis', 'gula darah'],
+                'kolesterol': ['kolesterol', 'lemak darah'],
+                'asma': ['asma', 'sesak napas', 'mengi'],
+                'maag': ['maag', 'gastritis', 'sakit perut', 'ulu hati']
+            };
+
+            let foundDisease = null;
+            for (const [disease, keywords] of Object.entries(diseaseKeywords)) {
+                if (keywords.some(keyword => message.includes(keyword))) {
+                    foundDisease = disease;
+                    break;
+                }
+            }
+
+            if (foundDisease) {
+                selectedDisease = foundDisease;
+                provideSolution(foundDisease);
+                conversationState = 'providing_solution';
+                return true; // Disease found
+            } else if (conversationState === 'welcome') {
+                addMessage('Maaf, penyakit yang Anda sebutkan belum tersedia dalam layanan kami. Silakan pilih dari daftar penyakit yang tersedia di atas. Anda bisa mengetikkan nama penyakitnya langsung.', false);
+                return false; // Disease not found
+            }
+            return false; // Disease not found
+        }
+
+        function handleSolutionResponse(message) {
+            if (message.includes('oke') || message.includes('ok') || message.includes('mengerti') || message.includes('terima kasih') || message.includes('thanks')) {
+                addMessage('Terima kasih telah menggunakan layanan konsultasi kami! Semoga informasi yang diberikan bermanfaat untuk kesehatan Anda. Jaga kesehatan selalu dan jangan ragu untuk berkonsultasi dengan dokter jika gejala bertambah parah. Salam sehat! 🌟', false);
+                conversationEnded = true;
+                
+                // Disable input
+                const input = document.getElementById('messageInput');
+                const sendBtn = document.getElementById('sendBtn');
+                input.disabled = true;
+                input.placeholder = 'Konsultasi telah selesai';
+                sendBtn.disabled = true;
+                sendBtn.style.opacity = '0.5';
+                sendBtn.style.cursor = 'not-allowed';
+            } else {
+                // Check if user is asking about another disease
+                handleDiseaseSelection(message);
+                
+                // If no disease found, give general response
+                if (conversationState === 'providing_solution') {
+                    addMessage('Apakah ada penyakit lain yang ingin Anda konsultasikan? Silakan sebutkan dari daftar penyakit yang tersedia, atau ketik "oke" jika sudah cukup.', false);
+                }
+            }
+        }
+
+        function provideSolution(diseaseKey) {
+            const disease = diseases[diseaseKey];
+            
+            const solutionHtml = `
+                <div class="solution-box">
+                    <div class="solution-title">
+                        🩺 Solusi dan Pengobatan untuk ${disease.name}
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4>🔍 Gejala yang Umum Dialami:</h4>
+                        <ul>
+                            ${disease.gejala.map(gejala => `<li>${gejala}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="solution-section">
+                        <h4>🧬 Penyebab:</h4>
+                        <p style="color: #555; line-height: 1.4; margin-left: 20px;">${disease.penyebab}</p>
+                    </div>
+
+                    <div class="solution-section">
+                        <h4>💊 Pengobatan yang Disarankan:</h4>
+                        <ul>
+                            ${disease.pengobatan.map(obat => `<li>${obat}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="solution-section">
+                        <h4>🛡️ Pencegahan:</h4>
+                        <ul>
+                            ${disease.pencegahan.map(cara => `<li>${cara}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="solution-section">
+                        <h4>💡 Tips Tambahan:</h4>
+                        <ul>
+                            ${disease.tips.map(tip => `<li>${tip}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 15px; color: #007bff; font-weight: 500;">
+                    ⚠️ <strong>Catatan Penting:</strong> Informasi ini bersifat edukatif. Jika gejala berlanjut atau memburuk, segera konsultasikan dengan dokter atau tenaga medis profesional.
+                </p>
+                
+                <p style="margin-top: 10px; color: #6c757d;">
+                    Apakah ada penyakit lain yang ingin Anda konsultasikan? Silakan sebutkan dari daftar penyakit yang tersedia, atau ketik <strong>"oke"</strong> jika sudah cukup.
+                </p>
+            `;
+
+            addMessage(solutionHtml, false, true);
+        }
+
+        function initializeChat() {
+            const welcomeMessage = `
+                Halo! 👋 Selamat datang di <strong>Asisten Kesehatan RamySehat</strong>! 
+                
+                Saya di sini untuk membantu memberikan informasi dan solusi kesehatan untuk berbagai penyakit. Namun, layanan ini hanya melayani penyakit-penyakit berikut:
+
+                <div class="disease-list">
+                    <div class="disease-category">🌡️ Penyakit Menular</div>
+                    <div class="disease-item">
+                        <span class="disease-name">Influenza (Flu)</span>
+                        <div class="disease-desc">Gejala: demam, batuk, pilek, nyeri otot. Penyebab: virus influenza.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">ISPA (Infeksi Saluran Pernapasan Akut)</span>
+                        <div class="disease-desc">Contoh: batuk pilek, bronkitis, pneumonia. Umum terjadi pada anak-anak dan lansia.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Diare</span>
+                        <div class="disease-desc">Penyebab: infeksi virus, bakteri, atau konsumsi makanan/minuman tidak higienis.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Demam Berdarah Dengue (DBD)</span>
+                        <div class="disease-desc">Penyebab: virus dengue dari gigitan nyamuk Aedes aegypti. Gejala: demam tinggi mendadak, nyeri otot, bintik merah.</div>
+                    </div>
+                </div>
+
+                <div class="disease-list">
+                    <div class="disease-category">🩺 Penyakit Tidak Menular</div>
+                    <div class="disease-item">
+                        <span class="disease-name">Hipertensi (Tekanan Darah Tinggi)</span>
+                        <div class="disease-desc">Disebut juga "silent killer" karena jarang bergejala tapi bisa menyebabkan stroke atau serangan jantung.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Diabetes Melitus</span>
+                        <div class="disease-desc">Gejala: sering haus, sering buang air kecil, luka sulit sembuh. Penyebab: kekurangan insulin atau resistensi insulin.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Kolesterol Tinggi</span>
+                        <div class="disease-desc">Bisa menyebabkan penyumbatan pembuluh darah. Tidak selalu bergejala, tapi berisiko pada jantung dan otak.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Asma</span>
+                        <div class="disease-desc">Gejala: sesak napas, batuk, napas berbunyi (mengi). Sering dipicu oleh alergi, cuaca, atau polusi udara.</div>
+                    </div>
+                    <div class="disease-item">
+                        <span class="disease-name">Maag (Gastritis)</span>
+                        <div class="disease-desc">Gejala: nyeri ulu hati, mual, perut kembung. Penyebab: pola makan tidak teratur atau infeksi H. pylori.</div>
+                    </div>
+                </div>
+
+                Silakan sebutkan penyakit mana yang sedang Anda alami, dan saya akan memberikan informasi lengkap beserta solusi pengobatannya! 😊
+            `;
+
+            setTimeout(() => {
+                addMessage(welcomeMessage, false, true);
+            }, 1000);
+        }
+
+        // Event listeners
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !conversationEnded) {
+                sendMessage();
+            }
+        });
+
+        // Initialize chat when page loads
+        window.addEventListener('load', function() {
+            initializeChat();
+        });
+
+        // Auto-resize chat messages container
+        window.addEventListener('resize', function() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    </script>
+</body>
+</html>

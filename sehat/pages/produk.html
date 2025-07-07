@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERHA 1 Facial Wash - Produk RamySehat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+        }
+
+        /* Header - Floating */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 10px 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #007bff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::before {
+            width: 80%;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background: #007bff;
+            color: white;
+        }
+
+        /* Header Buttons */
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-btn {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(45deg, #0056b3, #004494);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #007bff, #0056b3); /* Diubah dari abu-abu ke biru */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); /* Shadow juga disesuaikan ke biru */
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, #0056b3, #004085); /* Hover state dengan biru lebih gelap */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); /* Hover shadow juga biru */
+        }
+
+        /* Product Hero Section */
+        .product-hero {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 120px 0 80px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .product-hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .product-info h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+
+        .product-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .product-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .highlight-tag {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .product-image-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: rotate(-5deg);
+            transition: all 0.5s ease;
+        }
+
+        .product-image:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+            animation: pulse 2s infinite;
+            z-index: 10; /* Ditambahkan ini */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #007bff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Product Details Section */
+        .product-details {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .detail-section {
+            margin-bottom: 50px;
+        }
+
+        .detail-section h2 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .detail-section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 4px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border-radius: 2px;
+        }
+
+        .detail-section p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .benefit-card:hover {
+            background: white;
+            border-color: #007bff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 123, 255, 0.15);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+        }
+
+        .benefit-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .benefit-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Target Users Section */
+        .target-users {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 80px 0;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Diubah dari auto-fit */
+            gap: 30px;
+            margin-top: 50px;
+            justify-items: center; /* Ditambahkan untuk center alignment */
+        }
+
+        .users-grid .user-card:last-child {
+            grid-column: 1 / -1; /* Card terakhir span seluruh kolom */
+            max-width: 250px; /* Batas lebar maksimal */
+        }
+
+        .user-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .user-type {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .user-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* How to Use Section */
+        .how-to-use {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .steps-container {
+            margin-top: 50px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 86, 179, 0.05));
+        }
+
+        .step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .step:nth-child(even):hover {
+            transform: translateX(-10px);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 30px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .step:nth-child(even) .step-number {
+            margin-right: 0;
+            margin-left: 30px;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .step-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Purchase Section */
+       .purchase-section {
+            background: linear-gradient(135deg, #007bff, #0056b3); /* Diubah dari hijau ke biru */
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purchase-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .purchase-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .purchase-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .purchase-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+       .purchase-btn {
+            background: white;
+            color: #007bff; /* Diubah dari #28a745 ke biru */
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .purchase-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background: #f8f9fa;
+        }
+
+        .shopee-icon {
+            width: 30px;
+            height: 30px;
+            background: #ee4d2d;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer-section {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 60px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo-img:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-logo h3 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .footer-text {
+            margin-bottom: 30px;
+        }
+
+        .footer-text p {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            margin: 0;
+            max-width: 500px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .footer-bottom {
+            border-top: 2px solid #34495e;
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: #95a5a6;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .product-hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .product-info h1 {
+                font-size: 2.5rem;
+            }
+
+            .product-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .product-image {
+                max-width: 300px;
+                height: 400px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .detail-section h2 {
+                font-size: 1.8rem;
+                padding-left: 40px;
+            }
+
+            .detail-section h2::before {
+                width: 25px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                flex-direction: column !important;
+                text-align: center;
+            }
+
+            .step-number {
+                margin: 0 0 20px 0 !important;
+            }
+
+            .purchase-title {
+                font-size: 2.2rem;
+            }
+
+            .purchase-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .purchase-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .header-buttons {
+                gap: 10px;
+            }
+
+            .contact-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-info h1 {
+                font-size: 2rem;
+            }
+
+            .product-image {
+                max-width: 250px;
+                height: 350px;
+            }
+
+            .detail-section h2 {
+                font-size: 1.5rem;
+                padding-left: 35px;
+            }
+
+            .benefit-card {
+                padding: 20px;
+            }
+
+            .benefit-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .user-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+
+            .purchase-title {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .contact-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <img src="https://github.com/Afrizal236/kesehatan/blob/main/halodoc3588-removebg-preview.png?raw=true" alt="Logo Kesehatan" class="logo">
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="bot.html">Layanan</a></li>
+                    <li><a href="index2.html">Tips Sehat</a></li>
+                    <li><a href="#" class="active">Produk Kami</a></li>
+                    <li><a href="index.html#about">Tentang Kami</a></li>
+                </ul>
+                
+                <div class="header-buttons">
+                    <a href="contact.html" class="contact-btn">Hubungi Kami</a>
+                    <a href="index.html" class="back-btn">← Kembali</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Product Hero Section -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="product-hero-content">
+                <div class="product-info">
+                    <h1>ERHA 1 Facial Wash</h1>
+                    <p class="product-subtitle">Pembersih wajah tanpa sabun untuk kulit normal hingga kering</p>
+                    
+                    <div class="product-highlights">
+                        <span class="highlight-tag">💧 Tanpa Sabun</span>
+                        <span class="highlight-tag">🌿 Dengan Aloe Vera</span>
+                        <span class="highlight-tag">✨ Menjaga Kelembapan</span>
+                        <span class="highlight-tag">🧴 60ml</span>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="#purchase" class="btn btn-primary">🛒 Beli Sekarang</a>
+                        <a href="#product-description" class="btn btn-secondary">📋 Detail Produk</a>
+                    </div>
+                </div>
+
+                <div class="product-image-container">
+                    <div class="price-badge">Best Seller!</div>
+                    <img src="https://github.com/Afrizal236/kesehatan/blob/main/d172a1e2-462e-4b06-9330-6f2b945f376c-image-0-1742377381909.png?raw=true" alt="ERHA 1 Facial Wash" class="product-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Section -->
+    <section class="product-details" id="details">
+        <div class="container">
+            <div class="details-grid">
+                <div>
+                    <div class="detail-section fade-in">
+                        <h2 id="product-description">💧 Deskripsi Produk</h2>
+                        <p>ERHA 1 Facial Wash adalah pembersih wajah tanpa sabun yang diformulasikan khusus untuk kulit normal hingga kering. Lembut di kulit dan membantu menjaga kelembapan alami wajah.</p>
+                        <p>Diperkaya dengan kandungan aloe vera yang menenangkan, produk ini ideal untuk penggunaan sehari-hari tanpa membuat kulit terasa kering atau kaku.</p>
+                    </div>
+
+                    <div class="detail-section fade-in">
+                        <h2>🌿 Manfaat Utama</h2>
+                        <div class="benefits-grid">
+                            <div class="benefit-card">
+                                <div class="benefit-icon">💧</div>
+                                <h3 class="benefit-title">Membersihkan Tanpa Mengeringkan</h3>
+                                <p class="benefit-description">Formula tanpa sabun yang lembut membersihkan kotoran dan minyak berlebih tanpa menghilangkan kelembapan alami kulit.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <div class="benefit-icon">✨</div>
+                                <h3 class="benefit-title">Menjaga Kelembapan</h3>
+                                <p class="benefit-description">Mempertahankan kelembapan dan kelembutan kulit, menjadikan wajah terasa segar dan nyaman sepanjang hari.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <div class="benefit-icon">🌿</div>
+                                <h3 class="benefit-title">Menenangkan Kulit Sensitif</h3>
+                                <p class="benefit-description">Kandungan aloe vera membantu menenangkan kulit sensitif dan mengurangi iritasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="detail-section fade-in">
+                        <h2>👤 Cocok untuk Siapa?</h2>
+                        <div class="users-grid">
+                            <div class="user-card">
+                                <div class="user-avatar">👨</div>
+                                <h3 class="user-type">Pria & Wanita</h3>
+                                <p class="user-description">Cocok untuk semua gender yang ingin perawatan wajah yang lembut dan efektif.</p>
+                            </div>
+                            <div class="user-card">
+                                <div class="user-avatar">🧴</div>
+                                <h3 class="user-type">Kulit Normal - Kering</h3>
+                                <p class="user-description">Diformulasikan khusus untuk kulit normal, kering, atau sensitif.</p>
+                            </div>
+                            <div class="user-card">
+                                <div class="user-avatar">😌</div>
+                                <h3 class="user-type">Kulit Mudah Kaku</h3>
+                                <p class="user-description">Solusi terbaik untuk kulit yang mudah terasa kaku setelah mencuci muka.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section class="how-to-use">
+        <div class="container">
+            <div class="detail-section fade-in">
+                <h2>📌 Cara Penggunaan</h2>
+                <p>Ikuti langkah-langkah sederhana berikut untuk hasil optimal:</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Basahi Wajah</h3>
+                        <p>Basahi wajah dengan air hangat untuk membuka pori-pori dan mempersiapkan kulit untuk pembersihan yang optimal.</p>
+                    </div>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Tuangkan Facial Wash</h3>
+                        <p>Tuangkan facial wash secukupnya ke telapak tangan. Tidak perlu terlalu banyak, cukup seukuran koin.</p>
+                    </div>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Pijat Lembut</h3>
+                        <p>Usapkan ke wajah sambil dipijat lembut dengan gerakan memutar selama 30-60 detik untuk membersihkan secara menyeluruh.</p>
+                    </div>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Bilas dan Keringkan</h3>
+                        <p>Bilas hingga bersih dengan air hangat, lalu keringkan wajah dengan handuk bersih secara lembut dengan cara ditepuk-tepuk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purchase Section -->
+    <section class="purchase-section" id="purchase">
+        <div class="container">
+            <div class="purchase-content">
+                <h2 class="purchase-title">Siap untuk Kulit Sehat?</h2>
+                <p class="purchase-subtitle">Dapatkan ERHA 1 Facial Wash sekarang juga dan rasakan perbedaannya!</p>
+                
+                <a href="https://shopee.co.id/ERHA-1-Facial-Wash-for-Normal-Dry-Skin-60ml-Sabun-Muka-Kulit-Normal-dan-Kering-i.129153987.1981545234?sp_atk=fcd56766-1ed9-408d-9719-3674beb52e31&xptdk=fcd56766-1ed9-408d-9719-3674beb52e31" target="_blank" class="purchase-btn">
+                    <div class="shopee-icon">S</div>
+                    Beli di Shopee
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://github.com/Afrizal236/kesehatan/blob/main/halodoc3588.jpg?raw=true" alt="Logo RamySehat" class="footer-logo-img">
+                    <h3>RamySehat</h3>
+                </div>
+                <div class="footer-text">
+                    <p>Berkomitmen untuk kesehatan dan kesejahteraan Anda</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RamySehat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Floating navbar effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling untuk navigasi
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animasi fade in saat scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe semua elemen dengan class fade-in
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Product image hover effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImage = document.querySelector('.product-image');
+            
+            productImage.addEventListener('mouseenter', function() {
+                this.style.transform = 'rotate(0deg) scale(1.05)';
+            });
+
+            productImage.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotate(-5deg) scale(1)';
+            });
+
+            // Trigger animasi untuk elemen yang sudah terlihat
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('visible');
+                    }, index * 200);
+                });
+            }, 500);
+        });
+
+        // Enhanced hover effects for cards
+        document.querySelectorAll('.benefit-card, .user-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Purchase button click tracking
+        document.querySelector('.purchase-btn').addEventListener('click', function() {
+            // Analytics tracking could go here
+            console.log('Purchase button clicked - redirecting to Shopee');
+        });
+    </script>
+</body>
+</html>
